@@ -69,8 +69,17 @@ ROBOTSTXT_OBEY = True
 #}
 
 ITEM_PIPELINES = {
-    'tchouse.pipelines.JsonWriterPipeline': 300,
+    #'tchouse.pipelines.JsonWriterPipeline': 300,
+    'tchouse.pipelines.MongoPipeline': 301,
 }
+
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "tchouse"
+MONGODB_COLLECTION = "scrapy"
+
+MONGO_URI = "mongodb://localhost:27017"
+MONGO_DATABASE = "tchouse"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
