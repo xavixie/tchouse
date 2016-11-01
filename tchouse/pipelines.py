@@ -66,5 +66,9 @@ class MongoPipeline(object):
         self.client.close()
 
     def process_item(self, item, spider):
-        self.db[self.mongo_collection].insert(dict(item))
+        dup_check = self.db[self.mongo_collection].find({"link_url" : item["link_url"]}).count()
+        if dup_check == 0:
+            self.db[self.mongo_collection].insert(dict(item))
+        else :
+            print "exist"  
         return item
