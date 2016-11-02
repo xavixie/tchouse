@@ -14,6 +14,10 @@ class TCHouseSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
+
+        today_year = str(datetime.date.today().year)+"-"
+        #print today_year+response.url
+
         for sel in response.css(".overflow table tbody tr"):
             # item = TchouseItem()
             # item['name'] = sel.css(".th-title .s1 a::text").extract_first()
@@ -28,7 +32,7 @@ class TCHouseSpider(scrapy.Spider):
                 'floor': sel.css('td:nth-child(5)::text').extract_first(),
                 'room_area': sel.css('td:nth-child(6)::text').extract_first(),
                 'price': sel.css('td:nth-child(7)::text').extract_first(),
-                'publish_date': sel.css('td:nth-child(8)::text').extract_first(),
+                'publish_date': today_year+sel.css('td:nth-child(8)::text').extract_first(),
 
                 'product_url' : response.url,
             }
