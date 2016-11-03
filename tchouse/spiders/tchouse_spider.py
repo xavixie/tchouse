@@ -2,6 +2,7 @@
 
 import scrapy
 import datetime
+import re
 
 class TCHouseSpider(scrapy.Spider):
     name = "tchouse"
@@ -22,6 +23,10 @@ class TCHouseSpider(scrapy.Spider):
             # item = TchouseItem()
             # item['name'] = sel.css(".th-title .s1 a::text").extract_first()
             # print(item['name'])
+            #float(re.findall(r"([0-9\.]+)","12.3ss")[0])
+            c_room_area = re.findall(r"([0-9\.]+)",(sel.css('td:nth-child(6)::text').extract_first()))[0]
+            c_price = re.findall(r"([0-9\.]+)",(sel.css('td:nth-child(7)::text').extract_first()))[0]
+
             yield {
 
             	'region': sel.css(':first-child::text').extract_first(),
@@ -30,8 +35,10 @@ class TCHouseSpider(scrapy.Spider):
                 'house_type': sel.css('td:nth-child(3)::text').extract_first(),
                 'room_type': sel.css('td:nth-child(4)::text').extract_first(),
                 'floor': sel.css('td:nth-child(5)::text').extract_first(),
-                'room_area': sel.css('td:nth-child(6)::text').extract_first(),
-                'price': sel.css('td:nth-child(7)::text').extract_first(),
+                # 'room_area': float(sel.css('td:nth-child(6)::text').extract_first()),
+                # 'price': float(sel.css('td:nth-child(7)::text').extract_first()),
+                'room_area': float(c_room_area),
+                'price': float(c_price),
                 'publish_date': today_year+sel.css('td:nth-child(8)::text').extract_first(),
 
                 'product_url' : response.url,
